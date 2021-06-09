@@ -214,7 +214,7 @@ function HomeManagement(props) {
                     <Button type="primary" shape="circle" icon={<CalendarOutlined />} onClick={showCalenderModal} />
                     <Button type="primary" shape="circle" icon={<UnorderedListOutlined />} />
                     <Button type="primary" shape="circle" icon={<SettingOutlined />} />
-                    <Button type="primary" shape="circle" icon={<DeleteOutlined />} />
+                    <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
                 </Space>
             ),
         },
@@ -234,6 +234,18 @@ function HomeManagement(props) {
     const handleCalenderCancel = () => {
         setIsCalenderModalVisible(false);
     };
+
+    // -----------------
+
+    const handleDeleteHome = (record) => {
+        // step 1 : update the data
+        const newData = data.filter((home) => {
+            return home.key != record.key
+        })
+
+        // step 2 : set new data to state
+        setData(newData)
+    }
 
     return (
         <div>
