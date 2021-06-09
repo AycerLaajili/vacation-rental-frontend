@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Table, Input, Button, Space, DatePicker, Modal, Calendar } from 'antd';
+import { Table, Input, Button, Space, DatePicker, Modal, Calendar, Row } from 'antd';
 import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
-
-import 'antd/dist/antd.css';
 import HomeModalContent from './components/HomeModalContent'
 
-
-
 const { RangePicker } = DatePicker;
-
-
 function HomeManagement(props) {
-
-
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,7 +19,6 @@ function HomeManagement(props) {
                 type: "s+2",
                 price: "130 dt",
                 description: "haut stauding",
-
             },
             {
                 key: '2',
@@ -36,7 +27,6 @@ function HomeManagement(props) {
                 type: "s+2",
                 price: "90 dt",
                 description: "avec jardin",
-
             },
             {
                 key: '3',
@@ -45,7 +35,6 @@ function HomeManagement(props) {
                 type: "s+0",
                 price: "50 dt",
                 description: "---------",
-
             },
             {
                 key: '4',
@@ -54,7 +43,6 @@ function HomeManagement(props) {
                 type: "s+1",
                 price: "70 dt",
                 description: "---------",
-
             },
             {
                 key: '5',
@@ -63,13 +51,10 @@ function HomeManagement(props) {
                 type: "s+2",
                 price: "180 dt",
                 description: "400 metre au plage",
-
             },
         ]
     )
-
     let searchInput
-
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -101,7 +86,6 @@ function HomeManagement(props) {
                         size="small"
                         onClick={() => {
                             confirm({ closeDropdown: false });
-
                             setSearchText(selectedKeys[0])
                             setSearchedColumn(dataIndex)
                         }}
@@ -111,7 +95,7 @@ function HomeManagement(props) {
                 </Space>
             </div>
         ),
-        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890FF' : undefined }} />,
         onFilter: (value, record) =>
             record[dataIndex]
                 ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
@@ -124,7 +108,7 @@ function HomeManagement(props) {
         render: text =>
             searchedColumn === dataIndex ? (
                 <Highlighter
-                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    highlightStyle={{ backgroundColor: '#FFC069', padding: 0 }}
                     searchWords={[searchText]}
                     autoEscape
                     textToHighlight={text ? text.toString() : ''}
@@ -133,43 +117,31 @@ function HomeManagement(props) {
                 text
             ),
     });
-
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-
         setSearchText(selectedKeys[0])
         setSearchedColumn(dataIndex)
     };
-
     const handleReset = clearFilters => {
         clearFilters();
-
-
         setSearchText('')
     };
-
     // Modal functions *********
     const showModal = () => {
         setIsModalVisible(true);
     };
-
     const handleOk = () => {
         setIsModalVisible(false);
     };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
     const handleAddHome = (values) => {
         console.log(values)
-
         const newData = [...data, values]
         setData(newData)
-
         setIsModalVisible(false);
     }
-
     const columns = [
         {
             title: 'Referance',
@@ -193,7 +165,7 @@ function HomeManagement(props) {
             width: '10%',
         },
         {
-            title: 'Price/Nuit',
+            title: 'Price/Night',
             dataIndex: 'price',
             key: 'price',
             width: '15%',
@@ -204,7 +176,7 @@ function HomeManagement(props) {
             dataIndex: 'description',
             key: 'description',
             width: '20%',
-            ...getColumnSearchProps('dsecription'),
+            ...getColumnSearchProps('description'),
         },
         {
             title: 'Action',
@@ -219,57 +191,43 @@ function HomeManagement(props) {
             ),
         },
     ];
-
     const onPanelChange = (value, mode) => {
         console.log(value, mode);
     }
-
     const showCalenderModal = () => {
         setIsCalenderModalVisible(true)
     }
     const handleCalenderOk = () => {
         setIsCalenderModalVisible(false);
     };
-
     const handleCalenderCancel = () => {
         setIsCalenderModalVisible(false);
     };
-
     // -----------------
-
     const handleDeleteHome = (record) => {
         // step 1 : update the data
         const newData = data.filter((home) => {
             return home.key != record.key
         })
-
         // step 2 : set new data to state
         setData(newData)
     }
-
     return (
         <div>
-            <Space direction="vertical" size={12}>
+            <Row justify="space-between" >
                 <RangePicker />
-            </Space>
-            <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
-                Ajoute une maison
-            </Button>
-
+                <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
+                    Add new home
+                </Button>
+            </Row>
             <Table columns={columns} dataSource={data} />
-
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} />
+            <Modal title="Add new home" visible={isModalVisible} footer={null} onCancel={handleCancel}>
+                <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} onCancel={handleCancel} />
             </Modal>
-
-            <Modal title="Basic Modal" visible={isCalenderModalVisible} onOk={handleCalenderOk} onCancel={handleCalenderCancel}>
-                <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+            <Modal title="Availability calender" visible={isCalenderModalVisible} footer={null} onCancel={handleCalenderCancel} >
+                <Calendar fullscreen={false} onPanelChange={onPanelChange} onCancel={handleCalenderCancel} />
             </Modal>
         </div>
     )
-
 }
-
-
-
-export default HomeManagement;
+export default HomeManagement
