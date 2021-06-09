@@ -7,53 +7,6 @@ import 'antd/dist/antd.css';
 import HomeModalContent from './components/HomeModalContent'
 
 
-const data = [
-    {
-        key: '1',
-        referance: "1011",
-        region: "Sahloul",
-        type: "s+2",
-        price: "130 dt",
-        dsecription: "haut stauding",
-
-    },
-    {
-        key: '2',
-        referance: "1012",
-        region: "Hammam Sousse",
-        type: "s+2",
-        price: "90 dt",
-        dsecription: "avec jardin",
-
-    },
-    {
-        key: '3',
-        referance: "1013",
-        region: "Hammam Sousse",
-        type: "s+0",
-        price: "50 dt",
-        dsecription: "---------",
-
-    },
-    {
-        key: '4',
-        referance: "1014",
-        region: "Khzema",
-        type: "s+1",
-        price: "70 dt",
-        dsecription: "---------",
-
-    },
-    {
-        key: '5',
-        referance: "1017",
-        region: "Kantawi",
-        type: "s+2",
-        price: "180 dt",
-        dsecription: "400 metre au plage",
-
-    },
-]
 
 const { RangePicker } = DatePicker;
 
@@ -64,7 +17,55 @@ function HomeManagement(props) {
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [data, setData] = usestate(
+        [
+            {
+                key: '1',
+                referance: "1011",
+                region: "Sahloul",
+                type: "s+2",
+                price: "130 dt",
+                dsecription: "haut stauding",
 
+            },
+            {
+                key: '2',
+                referance: "1012",
+                region: "Hammam Sousse",
+                type: "s+2",
+                price: "90 dt",
+                dsecription: "avec jardin",
+
+            },
+            {
+                key: '3',
+                referance: "1013",
+                region: "Hammam Sousse",
+                type: "s+0",
+                price: "50 dt",
+                dsecription: "---------",
+
+            },
+            {
+                key: '4',
+                referance: "1014",
+                region: "Khzema",
+                type: "s+1",
+                price: "70 dt",
+                dsecription: "---------",
+
+            },
+            {
+                key: '5',
+                referance: "1017",
+                region: "Kantawi",
+                type: "s+2",
+                price: "180 dt",
+                dsecription: "400 metre au plage",
+
+            },
+        ]
+    )
 
     let searchInput
 
