@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Table, Input, Button, Space, DatePicker, Modal, Calendar } from 'antd';
+import { Table, Input, Button, Space, Modal, Calendar } from 'antd';
 import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import 'antd/dist/antd.css';
@@ -8,7 +8,7 @@ import ReservationModal from './components/ReservationModal'
 
 
 
-const { RangePicker } = DatePicker;
+
 
 
 function ReservationManagement(props) {
@@ -22,49 +22,41 @@ function ReservationManagement(props) {
         [
             {
                 key: '1',
-                referance: "1011",
-                region: "Sahloul",
-                type: "s+2",
-                price: "130 dt",
-                description: "haut stauding",
+                identifiant: "740",
+                periode: "1/6/2020-3/6/2020",
+                nom: "Ahmed Abed",
+                telephone: "24642979",
+                etat: "paye",
 
             },
             {
                 key: '2',
-                referance: "1012",
-                region: "Hammam Sousse",
-                type: "s+2",
-                price: "90 dt",
-                description: "avec jardin",
+                identifiant: "741",
+                periode: "4/4/2020-13/4/2020",
+                nom: "Youssef Osbana",
+                telephone: "56897432",
+                etat: "non paye",
 
             },
             {
                 key: '3',
-                referance: "1013",
-                region: "Hammam Sousse",
-                type: "s+0",
-                price: "50 dt",
-                description: "---------",
+                identifiant: "742",
+                periode: "22/9/2020-26/9/2020",
+                nom: "Mohamed Ghabari",
+                telephone: "23563241",
+                etat: "paye",
 
             },
             {
                 key: '4',
-                referance: "1014",
-                region: "Khzema",
-                type: "s+1",
-                price: "70 dt",
-                description: "---------",
+                identifiant: "743",
+                periode: "11/5/2020-31/5/2020",
+                nom: "Naim Seliti",
+                telephone: "44586325",
+                etat: "paye",
 
             },
-            {
-                key: '5',
-                referance: "1017",
-                region: "Kantawi",
-                type: "s+2",
-                price: "180 dt",
-                description: "400 metre au plage",
 
-            },
         ]
     )
 
@@ -172,47 +164,46 @@ function ReservationManagement(props) {
 
     const columns = [
         {
-            title: 'Referance',
-            dataIndex: 'referance',
-            key: 'referance',
+            title: 'Identifiant',
+            dataIndex: 'identifiant',
+            key: 'identifiant',
             width: '10%',
-            ...getColumnSearchProps('referance'),
+            ...getColumnSearchProps('identifiant'),
         },
         {
-            title: 'Region',
-            dataIndex: 'region',
-            key: 'region',
+            title: 'Periode',
+            dataIndex: 'periode',
+            key: 'periode',
             width: '20%',
-            ...getColumnSearchProps('region'),
+            ...getColumnSearchProps('periode'),
         },
         {
-            title: 'Type',
-            dataIndex: 'type',
-            key: 'type',
-            ...getColumnSearchProps('type'),
+            title: 'Nom du client',
+            dataIndex: 'nom',
+            key: 'nom',
+            ...getColumnSearchProps('nom'),
             width: '10%',
         },
         {
-            title: 'Price/Nuit',
-            dataIndex: 'price',
-            key: 'price',
+            title: 'Telephone client',
+            dataIndex: 'telephone',
+            key: 'telephone',
             width: '15%',
-            ...getColumnSearchProps('price'),
+            ...getColumnSearchProps('telephone'),
         },
         {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
+            title: 'Etat',
+            dataIndex: 'etat',
+            key: 'etat',
             width: '20%',
-            ...getColumnSearchProps('dsecription'),
+            ...getColumnSearchProps('etat'),
         },
         {
             title: 'Action',
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button type="primary" shape="circle" icon={<CalendarOutlined />} onClick={showCalenderModal} />
-                    <Button type="primary" shape="circle" icon={<UnorderedListOutlined />} />
+
                     <Button type="primary" shape="circle" icon={<SettingOutlined />} />
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
                 </Space>
@@ -249,9 +240,7 @@ function ReservationManagement(props) {
 
     return (
         <div>
-            <Space direction="vertical" size={12}>
-                <RangePicker />
-            </Space>
+
             <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
                 Ajoute Reservation
             </Button>
