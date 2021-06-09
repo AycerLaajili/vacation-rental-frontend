@@ -13,7 +13,7 @@ const data = [
         referance: "1011",
         region: "Sahloul",
         type: "s+2",
-        prixNuit: "130 dt",
+        price: "130 dt",
         dsecription: "haut stauding",
 
     },
@@ -22,7 +22,7 @@ const data = [
         referance: "1012",
         region: "Hammam Sousse",
         type: "s+2",
-        prixNuit: "90 dt",
+        price: "90 dt",
         dsecription: "avec jardin",
 
     },
@@ -31,7 +31,7 @@ const data = [
         referance: "1013",
         region: "Hammam Sousse",
         type: "s+0",
-        prixNuit: "50 dt",
+        price: "50 dt",
         dsecription: "---------",
 
     },
@@ -40,7 +40,7 @@ const data = [
         referance: "1014",
         region: "Khzema",
         type: "s+1",
-        prixNuit: "70 dt",
+        price: "70 dt",
         dsecription: "---------",
 
     },
@@ -49,7 +49,7 @@ const data = [
         referance: "1017",
         region: "Kantawi",
         type: "s+2",
-        prixNuit: "180 dt",
+        price: "180 dt",
         dsecription: "400 metre au plage",
 
     },
@@ -60,10 +60,6 @@ const { RangePicker } = DatePicker;
 
 function HomeManagement(props) {
 
-    // state = {
-    //   searchText: '',
-    //   searchedColumn: '',
-    // };
 
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
@@ -103,10 +99,7 @@ function HomeManagement(props) {
                         size="small"
                         onClick={() => {
                             confirm({ closeDropdown: false });
-                            // this.setState({
-                            //   searchText: selectedKeys[0],
-                            //   searchedColumn: dataIndex,
-                            // });
+
                             setSearchText(selectedKeys[0])
                             setSearchedColumn(dataIndex)
                         }}
@@ -141,17 +134,14 @@ function HomeManagement(props) {
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-        // this.setState({
-        //   searchText: selectedKeys[0],
-        //   searchedColumn: dataIndex,
-        // });
+
         setSearchText(selectedKeys[0])
         setSearchedColumn(dataIndex)
     };
 
     const handleReset = clearFilters => {
         clearFilters();
-        // this.setState({ searchText: '' });
+
 
         setSearchText('')
     };
@@ -192,11 +182,11 @@ function HomeManagement(props) {
             width: '10%',
         },
         {
-            title: 'Prix/Nuit',
-            dataIndex: 'prixNuit',
-            key: 'prixNuit',
+            title: 'Price/Nuit',
+            dataIndex: 'price',
+            key: 'price',
             width: '15%',
-            ...getColumnSearchProps('prixNuit'),
+            ...getColumnSearchProps('price'),
         },
         {
             title: 'Description',
