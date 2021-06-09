@@ -253,7 +253,7 @@ function ReservationManagement(props) {
                 <RangePicker />
             </Space>
             <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
-                Ajoute une maison
+                Ajoute Reservation
             </Button>
 
             <Table columns={columns} dataSource={data} />
