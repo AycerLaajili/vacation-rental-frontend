@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, Modal } from 'antd';
 import { SearchOutlined, PlusOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+
 import ReservationModal from './components/ReservationModal'
+
 function ReservationManagement(props) {
+
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,7 +46,9 @@ function ReservationManagement(props) {
             }
         ]
     )
+
     let searchInput
+
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -105,23 +110,28 @@ function ReservationManagement(props) {
             ) : (
                 text
             ),
-    });
+    })
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0])
         setSearchedColumn(dataIndex)
-    };
+    }
+
     const handleReset = clearFilters => {
         clearFilters();
         setSearchText('')
-    };
+    }
+
     // Modal functions *********
     const showModal = () => {
         setIsModalVisible(true);
-    };
+    }
+
     const handleCancel = () => {
         setIsModalVisible(false);
-    };
+    }
+
     const handleAddReservation = (values) => {
         const fromDate = values.period[0].format("DD/MM/YYYY")
         const toDate = values.period[1].format("DD/MM/YYYY")
@@ -130,6 +140,7 @@ function ReservationManagement(props) {
         setData(newData)
         setIsModalVisible(false);
     }
+
     const columns = [
         {
             title: 'Referance',
@@ -176,7 +187,8 @@ function ReservationManagement(props) {
                 </Space>
             ),
         },
-    ];
+    ]
+
     // -----------------
     const handleDeleteHome = (record) => {
         // step 1 : update the data
@@ -186,16 +198,25 @@ function ReservationManagement(props) {
         // step 2 : set new data to state
         setData(newData)
     }
+
     return (
         <div>
-            <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
-                Add Reservation
-            </Button>
+            <div style={{ float: 'right' }}>
+                <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
+                    Add Reservation
+                </Button>
+            </div>
+
+            <br />
+            <br />
+
             <Table columns={columns} dataSource={data} />
+
             <Modal title="Add new reservation" visible={isModalVisible} footer={null} onCancel={handleCancel} >
                 <ReservationModal onAddReservation={(values) => { handleAddReservation(values) }} onCancel={handleCancel} />
             </Modal>
         </div>
     )
 }
+
 export default ReservationManagement;

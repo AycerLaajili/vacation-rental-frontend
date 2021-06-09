@@ -3,8 +3,10 @@ import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, DatePicker, Modal, Calendar, Row } from 'antd';
 import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 import HomeModalContent from './components/HomeModalContent'
-const { RangePicker } = DatePicker;
+
+
 function HomeManagement(props) {
+
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -53,7 +55,10 @@ function HomeManagement(props) {
             },
         ]
     )
+
+    const { RangePicker } = DatePicker;
     let searchInput
+
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -115,29 +120,35 @@ function HomeManagement(props) {
             ) : (
                 text
             ),
-    });
+    })
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         setSearchText(selectedKeys[0])
         setSearchedColumn(dataIndex)
-    };
+    }
+
     const handleReset = clearFilters => {
-        clearFilters();
+        clearFilters()
         setSearchText('')
-    };
+    }
+
     // Modal functions *********
     const showModal = () => {
         setIsModalVisible(true);
-    };
+    }
+
     const handleCancel = () => {
         setIsModalVisible(false);
-    };
+    }
+
     const handleAddHome = (values) => {
         console.log(values)
         const newData = [...data, values]
         setData(newData)
         setIsModalVisible(false);
     }
+
     const columns = [
         {
             title: 'Referance',
@@ -186,19 +197,21 @@ function HomeManagement(props) {
                 </Space>
             ),
         },
-    ];
+    ]
+
     const onPanelChange = (value, mode) => {
         console.log(value, mode);
     }
+
     const showCalenderModal = () => {
         setIsCalenderModalVisible(true)
     }
-    const handleCalenderOk = () => {
-        setIsCalenderModalVisible(false);
-    };
+
+
     const handleCalenderCancel = () => {
         setIsCalenderModalVisible(false);
-    };
+    }
+
     // -----------------
     const handleDeleteHome = (record) => {
         // step 1 : update the data
@@ -208,6 +221,7 @@ function HomeManagement(props) {
         // step 2 : set new data to state
         setData(newData)
     }
+
     return (
         <div>
             <Row justify="space-between" >
@@ -216,15 +230,20 @@ function HomeManagement(props) {
                     Add new home
                 </Button>
             </Row>
+
             <br />
+
             <Table columns={columns} dataSource={data} />
+
             <Modal title="Add new home" visible={isModalVisible} footer={null} onCancel={handleCancel}>
                 <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} onCancel={handleCancel} />
             </Modal>
+
             <Modal title="Availability calender" visible={isCalenderModalVisible} footer={null} onCancel={handleCalenderCancel} >
                 <Calendar fullscreen={false} onPanelChange={onPanelChange} onCancel={handleCalenderCancel} />
             </Modal>
         </div>
     )
 }
+
 export default HomeManagement

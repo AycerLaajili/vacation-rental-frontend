@@ -1,10 +1,13 @@
 import { Layout, Menu } from 'antd';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
+
 import HomeManagement from '../views/HomeManagement/HomeManagement.js'
 import ReservationManagement from '../views/ReservationManagement/ReservationManagement.js'
 import About from '../views/About/About.js'
+
 function MainLayout(props) {
-    const { Header, Content, Footer } = Layout;
+    const { Header, Content, Footer } = Layout
+
     return (
         <BrowserRouter>
             <Layout className="layout">
@@ -36,6 +39,7 @@ function MainLayout(props) {
                 <Footer style={{ textAlign: 'center' }}>Vacation Rental ©2021 Created by Aycer & Wassim</Footer>
             </Layout>
         </BrowserRouter>
-    );
-};
+    )
+}
+
 export default MainLayout;

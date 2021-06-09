@@ -1,13 +1,15 @@
 import React from 'react'
 import { Card, Row, Col } from 'antd';
-const { Meta } = Card;
+
 function About(props) {
+    const { Meta } = Card;
+
     return (
         <div>
             <h2>Vacation Rental v1</h2>
             <p>
                 This awsome website is created by :
-      </p>
+            </p>
             <Row justify="space-around" align="middle">
                 <Col span={4}>
                     <Card
@@ -31,4 +33,5 @@ function About(props) {
         </div>
     )
 }
+
 export default About
