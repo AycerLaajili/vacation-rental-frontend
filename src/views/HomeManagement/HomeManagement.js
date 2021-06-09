@@ -17,7 +17,7 @@ function HomeManagement(props) {
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [data, setData] = usestate(
+    const [data, setData] = useState(
         [
             {
                 key: '1',
@@ -25,7 +25,7 @@ function HomeManagement(props) {
                 region: "Sahloul",
                 type: "s+2",
                 price: "130 dt",
-                dsecription: "haut stauding",
+                description: "haut stauding",
 
             },
             {
@@ -34,7 +34,7 @@ function HomeManagement(props) {
                 region: "Hammam Sousse",
                 type: "s+2",
                 price: "90 dt",
-                dsecription: "avec jardin",
+                description: "avec jardin",
 
             },
             {
@@ -43,7 +43,7 @@ function HomeManagement(props) {
                 region: "Hammam Sousse",
                 type: "s+0",
                 price: "50 dt",
-                dsecription: "---------",
+                description: "---------",
 
             },
             {
@@ -52,7 +52,7 @@ function HomeManagement(props) {
                 region: "Khzema",
                 type: "s+1",
                 price: "70 dt",
-                dsecription: "---------",
+                description: "---------",
 
             },
             {
@@ -61,7 +61,7 @@ function HomeManagement(props) {
                 region: "Kantawi",
                 type: "s+2",
                 price: "180 dt",
-                dsecription: "400 metre au plage",
+                description: "400 metre au plage",
 
             },
         ]
@@ -160,8 +160,13 @@ function HomeManagement(props) {
         setIsModalVisible(false);
     };
 
-    const handleAddHome = () => {
+    const handleAddHome = (values) => {
+        console.log(values)
 
+        const newData = [...data, values]
+        setData(newData)
+
+        setIsModalVisible(false);
     }
 
     const columns = [
@@ -195,8 +200,8 @@ function HomeManagement(props) {
         },
         {
             title: 'Description',
-            dataIndex: 'dsecription',
-            key: 'dsecription',
+            dataIndex: 'description',
+            key: 'description',
             width: '20%',
             ...getColumnSearchProps('dsecription'),
         },
@@ -225,7 +230,7 @@ function HomeManagement(props) {
             <Table columns={columns} dataSource={data} />
 
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <HomeModalContent onAddHome={() => { handleAddHome() }} />
+                <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} />
             </Modal>
         </div>
     )
