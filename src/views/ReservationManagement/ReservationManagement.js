@@ -1,67 +1,49 @@
 import React, { useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Table, Input, Button, Space, Modal, Calendar } from 'antd';
-import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
-
-import 'antd/dist/antd.css';
+import { Table, Input, Button, Space, Modal } from 'antd';
+import { SearchOutlined, PlusOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 import ReservationModal from './components/ReservationModal'
-
-
-
-
-
-
 function ReservationManagement(props) {
-
-
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [isCalenderModalVisible, setIsCalenderModalVisible] = useState(false);
     const [data, setData] = useState(
         [
             {
                 key: '1',
-                identifiant: "740",
-                periode: "1/6/2020-3/6/2020",
-                nom: "Ahmed Abed",
-                telephone: "24642979",
-                etat: "paye",
-
+                referance: "740",
+                period: "1/6/2020 - 3/6/2020",
+                clientName: "Mohamed Lajili",
+                clientPhone: "24642979",
+                payed: "payed",
             },
             {
                 key: '2',
-                identifiant: "741",
-                periode: "4/4/2020-13/4/2020",
-                nom: "Youssef Osbana",
-                telephone: "56897432",
-                etat: "non paye",
-
+                referance: "741",
+                period: "4/4/2020 - 13/4/2020",
+                clientName: "Youssef Osbana",
+                clientPhone: "56897432",
+                payed: "not payed",
             },
             {
                 key: '3',
-                identifiant: "742",
-                periode: "22/9/2020-26/9/2020",
-                nom: "Mohamed Ghabari",
-                telephone: "23563241",
-                etat: "paye",
-
+                referance: "742",
+                period: "22/9/2020 - 26/9/2020",
+                clientName: "Mohamed Ghabari",
+                clientPhone: "23563241",
+                payed: "payed",
             },
             {
                 key: '4',
-                identifiant: "743",
-                periode: "11/5/2020-31/5/2020",
-                nom: "Naim Seliti",
-                telephone: "44586325",
-                etat: "paye",
-
-            },
-
+                referance: "743",
+                period: "11/5/2020 - 31/5/2020",
+                clientName: "Naim Seliti",
+                clientPhone: "44586325",
+                payed: "payed"
+            }
         ]
     )
-
     let searchInput
-
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -93,7 +75,6 @@ function ReservationManagement(props) {
                         size="small"
                         onClick={() => {
                             confirm({ closeDropdown: false });
-
                             setSearchText(selectedKeys[0])
                             setSearchedColumn(dataIndex)
                         }}
@@ -103,7 +84,7 @@ function ReservationManagement(props) {
                 </Space>
             </div>
         ),
-        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890FF' : undefined }} />,
         onFilter: (value, record) =>
             record[dataIndex]
                 ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
@@ -116,7 +97,7 @@ function ReservationManagement(props) {
         render: text =>
             searchedColumn === dataIndex ? (
                 <Highlighter
-                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    highlightStyle={{ backgroundColor: '#FFC069', padding: 0 }}
                     searchWords={[searchText]}
                     autoEscape
                     textToHighlight={text ? text.toString() : ''}
@@ -125,140 +106,96 @@ function ReservationManagement(props) {
                 text
             ),
     });
-
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-
         setSearchText(selectedKeys[0])
         setSearchedColumn(dataIndex)
     };
-
     const handleReset = clearFilters => {
         clearFilters();
-
-
         setSearchText('')
     };
-
     // Modal functions *********
     const showModal = () => {
         setIsModalVisible(true);
     };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
-    const handleAddHome = (values) => {
-        console.log(values)
-
+    const handleAddReservation = (values) => {
+        const fromDate = values.period[0].format("DD/MM/YYYY")
+        const toDate = values.period[1].format("DD/MM/YYYY")
+        values.period = fromDate + ' - ' + toDate
         const newData = [...data, values]
         setData(newData)
-
         setIsModalVisible(false);
     }
-
     const columns = [
         {
-            title: 'Identifiant',
-            dataIndex: 'identifiant',
-            key: 'identifiant',
+            title: 'Referance',
+            dataIndex: 'referance',
+            key: 'referance',
             width: '10%',
-            ...getColumnSearchProps('identifiant'),
+            ...getColumnSearchProps('referance'),
         },
         {
-            title: 'Periode',
-            dataIndex: 'periode',
-            key: 'periode',
+            title: 'Period',
+            dataIndex: 'period',
+            key: 'period',
             width: '20%',
-            ...getColumnSearchProps('periode'),
+            ...getColumnSearchProps('period'),
         },
         {
-            title: 'Nom du client',
-            dataIndex: 'nom',
-            key: 'nom',
-            ...getColumnSearchProps('nom'),
-            width: '10%',
-        },
-        {
-            title: 'Telephone client',
-            dataIndex: 'telephone',
-            key: 'telephone',
+            title: 'Client Name',
+            dataIndex: 'clientName',
+            key: 'clientName',
+            ...getColumnSearchProps('clientName'),
             width: '15%',
-            ...getColumnSearchProps('telephone'),
         },
         {
-            title: 'Etat',
-            dataIndex: 'etat',
-            key: 'etat',
+            title: 'Client Phone',
+            dataIndex: 'clientPhone',
+            key: 'clientPhone',
+            width: '15%',
+            ...getColumnSearchProps('clientPhone'),
+        },
+        {
+            title: 'Payed',
+            dataIndex: 'payed',
+            key: 'payed',
             width: '20%',
-            ...getColumnSearchProps('etat'),
+            ...getColumnSearchProps('payed'),
         },
         {
             title: 'Action',
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-
                     <Button type="primary" shape="circle" icon={<SettingOutlined />} />
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
                 </Space>
             ),
         },
     ];
-
-    const onPanelChange = (value, mode) => {
-        console.log(value, mode);
-    }
-
-    const showCalenderModal = () => {
-        setIsCalenderModalVisible(true)
-    }
-    const handleCalenderOk = () => {
-        setIsCalenderModalVisible(false);
-    };
-
-    const handleCalenderCancel = () => {
-        setIsCalenderModalVisible(false);
-    };
-
     // -----------------
-
     const handleDeleteHome = (record) => {
         // step 1 : update the data
         const newData = data.filter((home) => {
             return home.key != record.key
         })
-
         // step 2 : set new data to state
         setData(newData)
     }
-
     return (
         <div>
-
             <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
-                Ajoute Reservation
+                Add Reservation
             </Button>
-
             <Table columns={columns} dataSource={data} />
-
-            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <ReservationModal onAddHome={(values) => { handleAddHome(values) }} />
-            </Modal>
-
-            <Modal title="Basic Modal" visible={isCalenderModalVisible} onOk={handleCalenderOk} onCancel={handleCalenderCancel}>
-                <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+            <Modal title="Add new reservation" visible={isModalVisible} footer={null} onCancel={handleCancel} >
+                <ReservationModal onAddReservation={(values) => { handleAddReservation(values) }} onCancel={handleCancel} />
             </Modal>
         </div>
     )
-
 }
-
-
-
 export default ReservationManagement;
