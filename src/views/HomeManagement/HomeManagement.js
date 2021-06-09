@@ -159,6 +159,10 @@ function HomeManagement(props) {
         setIsModalVisible(false);
     };
 
+    const handleAddHome = () => {
+
+    }
+
     const columns = [
         {
             title: 'Referance',
