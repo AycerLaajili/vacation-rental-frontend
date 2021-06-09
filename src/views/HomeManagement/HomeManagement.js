@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Highlighter from 'react-highlight-words';
-import { Table, Input, Button, Space, DatePicker, Modal } from 'antd';
+import { Table, Input, Button, Space, DatePicker, Modal, Calendar } from 'antd';
 import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import 'antd/dist/antd.css';
@@ -17,6 +17,7 @@ function HomeManagement(props) {
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isCalenderModalVisible, setIsCalenderModalVisible] = useState(false);
     const [data, setData] = useState(
         [
             {
@@ -210,7 +211,7 @@ function HomeManagement(props) {
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button type="primary" shape="circle" icon={<CalendarOutlined />} />
+                    <Button type="primary" shape="circle" icon={<CalendarOutlined />} onClick={showCalenderModal} />
                     <Button type="primary" shape="circle" icon={<UnorderedListOutlined />} />
                     <Button type="primary" shape="circle" icon={<SettingOutlined />} />
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} />
@@ -218,6 +219,21 @@ function HomeManagement(props) {
             ),
         },
     ];
+
+    const onPanelChange = (value, mode) => {
+        console.log(value, mode);
+    }
+
+    const showCalenderModal = () => {
+        setIsCalenderModalVisible(true)
+    }
+    const handleCalenderOk = () => {
+        setIsCalenderModalVisible(false);
+    };
+
+    const handleCalenderCancel = () => {
+        setIsCalenderModalVisible(false);
+    };
 
     return (
         <div>
@@ -227,10 +243,15 @@ function HomeManagement(props) {
             <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
                 Ajoute une maison
             </Button>
+
             <Table columns={columns} dataSource={data} />
 
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} />
+            </Modal>
+
+            <Modal title="Basic Modal" visible={isCalenderModalVisible} onOk={handleCalenderOk} onCancel={handleCalenderCancel}>
+                <Calendar fullscreen={false} onPanelChange={onPanelChange} />
             </Modal>
         </div>
     )
