@@ -19,9 +19,14 @@ const validateMessages = {
     },
 }
 function HomeModalContent(props) {
+    const [form] = Form.useForm();
+    const onFinish = (values) => {
+        form.resetFields()
+        props.onAddHome(values)
+    }
     return (
         <div>
-            <Form {...layout} name="nest-messages" onFinish={props.onAddHome} validateMessages={validateMessages}>
+            <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
                 <Form.Item name='referance' label="Referance"  >
                     <Input />
                 </Form.Item>
