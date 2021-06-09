@@ -224,7 +224,7 @@ function HomeManagement(props) {
             <Table columns={columns} dataSource={data} />
 
             <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <HomeModalContent />
+                <HomeModalContent onAddHome={() => { handleAddHome() }} />
             </Modal>
         </div>
     )
