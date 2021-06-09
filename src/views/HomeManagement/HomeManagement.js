@@ -3,7 +3,6 @@ import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, DatePicker, Modal, Calendar, Row } from 'antd';
 import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 import HomeModalContent from './components/HomeModalContent'
-
 const { RangePicker } = DatePicker;
 function HomeManagement(props) {
     const [searchText, setSearchText] = useState('')
@@ -130,9 +129,6 @@ function HomeManagement(props) {
     const showModal = () => {
         setIsModalVisible(true);
     };
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
     const handleCancel = () => {
         setIsModalVisible(false);
     };
@@ -220,6 +216,7 @@ function HomeManagement(props) {
                     Add new home
                 </Button>
             </Row>
+            <br />
             <Table columns={columns} dataSource={data} />
             <Modal title="Add new home" visible={isModalVisible} footer={null} onCancel={handleCancel}>
                 <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} onCancel={handleCancel} />
