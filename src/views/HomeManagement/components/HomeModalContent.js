@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 
 import { Form, Input, InputNumber, Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import { OmitProps } from 'antd/lib/transfer/ListBody';
 
 const layout = {
     labelCol: {
@@ -27,15 +28,12 @@ const validateMessages = {
 };
 /* eslint-enable no-template-curly-in-string */
 
-const HomeModalContent = () => {
-    const onFinish = (values) => {
-        console.log(values);
-    };
+function HomeModalContent(props) {
 
     return (
         <div>
 
-            <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+            <Form {...layout} name="nest-messages" onFinish={Props.onAddHome} validateMessages={validateMessages}>
                 <Form.Item name='referance' label="Referance"  >
                     <Input />
                 </Form.Item>
