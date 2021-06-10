@@ -10,16 +10,7 @@ const layout = {
     }
 }
 
-const validateMessages = {
-    required: '${label} is required!',
-    types: {
-        email: '${label} is not a valid email!',
-        number: '${label} is not a valid number!',
-    },
-    number: {
-        range: '${label} must be between ${min} and ${max}',
-    },
-}
+
 
 function HomeModalContent(props) {
     const [form] = Form.useForm();
@@ -30,7 +21,7 @@ function HomeModalContent(props) {
 
     return (
         <div>
-            <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+            <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} >
                 <Form.Item name='referance' label="Referance"  >
                     <Input />
                 </Form.Item>
