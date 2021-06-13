@@ -188,7 +188,7 @@ function HomeManagement(props) {
     }
 
     const handleGetHomes = async () => {
-        console.log('Componenet is mounting');
+        console.log('Componenet is mounting')
 
         const response = await axios.get('/homes')
         setData(response.data)

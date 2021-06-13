@@ -1,51 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, Modal } from 'antd';
 import { SearchOutlined, PlusOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import ReservationModal from './components/ReservationModal'
+import axios from '../../config/axios'
 
 function ReservationManagement(props) {
 
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [data, setData] = useState(
-        [
-            {
-                key: '1',
-                referance: "740",
-                period: "1/6/2020 - 3/6/2020",
-                clientName: "Mohamed Lajili",
-                clientPhone: "24642979",
-                payed: "payed",
-            },
-            {
-                key: '2',
-                referance: "741",
-                period: "4/4/2020 - 13/4/2020",
-                clientName: "Youssef Osbana",
-                clientPhone: "56897432",
-                payed: "not payed",
-            },
-            {
-                key: '3',
-                referance: "742",
-                period: "22/9/2020 - 26/9/2020",
-                clientName: "Mohamed Ghabari",
-                clientPhone: "23563241",
-                payed: "payed",
-            },
-            {
-                key: '4',
-                referance: "743",
-                period: "11/5/2020 - 31/5/2020",
-                clientName: "Naim Seliti",
-                clientPhone: "44586325",
-                payed: "payed"
-            }
-        ]
-    )
+    const [data, setData] = useState([])
 
     let searchInput
 
@@ -71,10 +37,10 @@ function ReservationManagement(props) {
                         style={{ width: 90 }}
                     >
                         Search
-          </Button>
+                    </Button>
                     <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
                         Reset
-          </Button>
+                    </Button>
                     <Button
                         type="link"
                         size="small"
@@ -85,7 +51,7 @@ function ReservationManagement(props) {
                         }}
                     >
                         Filter
-          </Button>
+                    </Button>
                 </Space>
             </div>
         ),
@@ -132,11 +98,17 @@ function ReservationManagement(props) {
         setIsModalVisible(false);
     }
 
-    const handleAddReservation = (values) => {
+    const handleAddReservation = async (values) => {
+
         const fromDate = values.period[0].format("DD/MM/YYYY")
         const toDate = values.period[1].format("DD/MM/YYYY")
         values.period = fromDate + ' - ' + toDate
-        const newData = [...data, values]
+
+        const response = await axios.post('/reservation', values)
+
+        const newReservation = response.data
+        const newData = [...data, newReservation]
+
         setData(newData)
         setIsModalVisible(false);
     }
@@ -190,14 +162,29 @@ function ReservationManagement(props) {
     ]
 
     // -----------------
-    const handleDeleteHome = (record) => {
+    const handleDeleteHome = async (record) => {
+
+        const response = await axios.delete('/reservation/' + record._id)
+
         // step 1 : update the data
-        const newData = data.filter((home) => {
-            return home.key != record.key
+        const newData = data.filter((reservation) => {
+            return reservation._id != record._id
         })
         // step 2 : set new data to state
         setData(newData)
     }
+
+
+    const handleGetReservations = async () => {
+        console.log('Componenet is mounting');
+
+        const response = await axios.get('/reservations')
+        setData(response.data)
+    }
+
+    useEffect(() => {
+        handleGetReservations()
+    }, [])
 
     return (
         <div>
