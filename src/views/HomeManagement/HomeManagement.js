@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, DatePicker, Modal, Calendar, Row } from 'antd';
 import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
 import HomeModalContent from './components/HomeModalContent'
-
+import axios from '../../config/axios'
 
 function HomeManagement(props) {
 
@@ -11,50 +11,7 @@ function HomeManagement(props) {
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isCalenderModalVisible, setIsCalenderModalVisible] = useState(false);
-    const [data, setData] = useState(
-        [
-            {
-                key: '1',
-                referance: "1011",
-                region: "Sahloul",
-                type: "s+2",
-                price: "130 dt",
-                description: "haut stauding",
-            },
-            {
-                key: '2',
-                referance: "1012",
-                region: "Hammam Sousse",
-                type: "s+2",
-                price: "90 dt",
-                description: "avec jardin",
-            },
-            {
-                key: '3',
-                referance: "1013",
-                region: "Hammam Sousse",
-                type: "s+0",
-                price: "50 dt",
-                description: "---------",
-            },
-            {
-                key: '4',
-                referance: "1014",
-                region: "Khzema",
-                type: "s+1",
-                price: "70 dt",
-                description: "---------",
-            },
-            {
-                key: '5',
-                referance: "1017",
-                region: "Kantawi",
-                type: "s+2",
-                price: "180 dt",
-                description: "400 metre au plage",
-            },
-        ]
-    )
+    const [data, setData] = useState([])
 
     const { RangePicker } = DatePicker;
     let searchInput
@@ -81,10 +38,10 @@ function HomeManagement(props) {
                         style={{ width: 90 }}
                     >
                         Search
-          </Button>
+                    </Button>
                     <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
                         Reset
-          </Button>
+                    </Button>
                     <Button
                         type="link"
                         size="small"
@@ -95,7 +52,7 @@ function HomeManagement(props) {
                         }}
                     >
                         Filter
-          </Button>
+                    </Button>
                 </Space>
             </div>
         ),
@@ -142,9 +99,13 @@ function HomeManagement(props) {
         setIsModalVisible(false);
     }
 
-    const handleAddHome = (values) => {
-        console.log(values)
-        const newData = [...data, values]
+    const handleAddHome = async (values) => {
+
+        const response = await axios.post('/home', values)
+
+        const newHome = response.data
+        const newData = [...data, newHome]
+
         setData(newData)
         setIsModalVisible(false);
     }
@@ -213,14 +174,29 @@ function HomeManagement(props) {
     }
 
     // -----------------
-    const handleDeleteHome = (record) => {
+    const handleDeleteHome = async (record) => {
+
+        const response = await axios.delete('/home/' + record._id)
+
         // step 1 : update the data
         const newData = data.filter((home) => {
-            return home.key != record.key
+            return home._id != record._id
         })
+
         // step 2 : set new data to state
         setData(newData)
     }
+
+    const handleGetHomes = async () => {
+        console.log('Componenet is mounting');
+
+        const response = await axios.get('/homes')
+        setData(response.data)
+    }
+
+    useEffect(() => {
+        handleGetHomes()
+    }, [])
 
     return (
         <div>
