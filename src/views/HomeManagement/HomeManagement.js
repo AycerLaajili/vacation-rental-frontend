@@ -7,14 +7,24 @@ import axios from '../../config/axios'
 
 function HomeManagement(props) {
 
+    // -------------- State definition
+
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState(null);
     const [isCalenderModalVisible, setIsCalenderModalVisible] = useState(false);
     const [data, setData] = useState([])
 
-    const { RangePicker } = DatePicker;
+
+    // -------------- Variable definition
+
+    const { RangePicker } = DatePicker
     let searchInput
+
+
+    // -------------- Handle table search functions
 
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -90,16 +100,33 @@ function HomeManagement(props) {
         setSearchText('')
     }
 
-    // Modal functions *********
-    const showModal = () => {
-        setIsModalVisible(true);
+
+    // -------------- Handle componenet mounting
+
+    const handleGetHomes = async () => {
+        console.log('Componenet is mounting')
+
+        const response = await axios.get('/homes')
+        setData(response.data)
     }
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
+    useEffect(() => {
+        handleGetHomes()
+    }, [])
+
+
+    // -------------- Add Modal functions
+
+    const showAddModal = () => {
+        setIsAddModalVisible(true);
+    }
+
+    const handleCancelAddModal = () => {
+        setIsAddModalVisible(false);
     }
 
     const handleAddHome = async (values) => {
+        values.photos = values.photos.fileList.map(item => item.response || item.url)
 
         const response = await axios.post('/home', values)
 
@@ -107,8 +134,57 @@ function HomeManagement(props) {
         const newData = [...data, newHome]
 
         setData(newData)
-        setIsModalVisible(false);
+        setIsAddModalVisible(false);
     }
+
+
+    // -------------- Edit Modal functions
+
+    const showEditModal = (record) => {
+        setSelectedRecord(record)
+        setIsEditModalVisible(true)
+    }
+
+    const handleCancelEditModal = () => {
+        setIsEditModalVisible(false);
+    }
+
+    const handleEditHome = (values) => {
+        console.log(values)
+        setIsEditModalVisible(false)
+        setSelectedRecord(null)
+    }
+
+    // -------------- Calender Modal functions
+
+    const showCalenderModal = () => {
+        setIsCalenderModalVisible(true)
+    }
+
+    const handleCancelCalenderModal = () => {
+        setIsCalenderModalVisible(false);
+    }
+
+    const onPanelChange = (value, mode) => {
+        console.log(value, mode);
+    }
+
+
+    // -------------- Delete functions
+
+    const handleDeleteHome = async (record) => {
+
+        const response = await axios.delete('/home/' + record._id)
+
+        // step 1 : update the data
+        const newData = data.filter((home) => {
+            return home._id !== record._id
+        })
+
+        // step 2 : set new data to state
+        setData(newData)
+    }
+
 
     const columns = [
         {
@@ -153,70 +229,36 @@ function HomeManagement(props) {
                 <Space size="middle">
                     <Button type="primary" shape="circle" icon={<CalendarOutlined />} onClick={showCalenderModal} />
                     <Button type="primary" shape="circle" icon={<UnorderedListOutlined />} />
-                    <Button type="primary" shape="circle" icon={<SettingOutlined />} />
+                    <Button type="primary" shape="circle" icon={<SettingOutlined />} onClick={() => { showEditModal(record) }} />
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
                 </Space>
             ),
         },
     ]
 
-    const onPanelChange = (value, mode) => {
-        console.log(value, mode);
-    }
-
-    const showCalenderModal = () => {
-        setIsCalenderModalVisible(true)
-    }
-
-
-    const handleCalenderCancel = () => {
-        setIsCalenderModalVisible(false);
-    }
-
-    // -----------------
-    const handleDeleteHome = async (record) => {
-
-        const response = await axios.delete('/home/' + record._id)
-
-        // step 1 : update the data
-        const newData = data.filter((home) => {
-            return home._id != record._id
-        })
-
-        // step 2 : set new data to state
-        setData(newData)
-    }
-
-    const handleGetHomes = async () => {
-        console.log('Componenet is mounting')
-
-        const response = await axios.get('/homes')
-        setData(response.data)
-    }
-
-    useEffect(() => {
-        handleGetHomes()
-    }, [])
-
     return (
         <div>
             <Row justify="space-between" >
                 <RangePicker />
-                <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showModal}>
+                <Button type="primary" shape="round" icon={<PlusOutlined />} onClick={showAddModal}>
                     Add new home
                 </Button>
             </Row>
 
             <br />
 
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} rowKey="_id" />
 
-            <Modal title="Add new home" visible={isModalVisible} footer={null} onCancel={handleCancel}>
-                <HomeModalContent onAddHome={(values) => { handleAddHome(values) }} onCancel={handleCancel} />
+            <Modal title="Add new home" visible={isAddModalVisible} footer={null} onCancel={handleCancelAddModal}>
+                <HomeModalContent onSubmit={(values) => { handleAddHome(values) }} onCancel={handleCancelAddModal} />
             </Modal>
 
-            <Modal title="Availability calender" visible={isCalenderModalVisible} footer={null} onCancel={handleCalenderCancel} >
-                <Calendar fullscreen={false} onPanelChange={onPanelChange} onCancel={handleCalenderCancel} />
+            <Modal title="Edit home" visible={isEditModalVisible} footer={null} onCancel={handleCancelEditModal}>
+                <HomeModalContent selectedRecord={selectedRecord} onSubmit={(values) => { handleEditHome(values) }} onCancel={handleCancelEditModal} />
+            </Modal>
+
+            <Modal title="Availability calender" visible={isCalenderModalVisible} footer={null} onCancel={handleCancelCalenderModal} >
+                <Calendar fullscreen={false} onPanelChange={onPanelChange} onCancel={handleCancelCalenderModal} />
             </Modal>
         </div>
     )

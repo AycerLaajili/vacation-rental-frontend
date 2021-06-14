@@ -168,7 +168,7 @@ function ReservationManagement(props) {
 
         // step 1 : update the data
         const newData = data.filter((reservation) => {
-            return reservation._id != record._id
+            return reservation._id !== record._id
         })
         // step 2 : set new data to state
         setData(newData)
