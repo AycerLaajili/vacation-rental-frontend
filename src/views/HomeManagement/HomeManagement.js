@@ -126,7 +126,8 @@ function HomeManagement(props) {
     }
 
     const handleAddHome = async (values) => {
-        values.photos = values.photos.fileList.map(item => item.response || item.url)
+        if (values.photos)
+            values.photos = values.photos.fileList.map(item => item.response || item.url)
 
         const response = await axios.post('/home', values)
 
