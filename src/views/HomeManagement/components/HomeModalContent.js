@@ -75,28 +75,28 @@ function HomeModalContent(props) {
                 <Form.Item
                     name='referance'
                     label="Referance"
-                    rules={[{ required: true, message: 'Please input your Referance!' }]} >
+                    rules={[{ required: true, message: 'Please enter referance!' }]} >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
                     name='region'
                     label="Region"
-                    rules={[{ required: true, message: 'Please input your Region!' }]}  >
+                    rules={[{ required: true, message: 'Please enter region!' }]}  >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
                     name='type'
                     label="Type"
-                    rules={[{ required: true, message: 'Please input your Type!' }]}  >
+                    rules={[{ required: true, message: 'Please enter type!' }]}  >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
                     name='price'
                     label="Price"
-                    rules={[{ required: true, message: 'Please input your Price!' }]}  >
+                    rules={[{ required: true, message: 'Please enter price!' }]}  >
                     <InputNumber />
                 </Form.Item>
 
