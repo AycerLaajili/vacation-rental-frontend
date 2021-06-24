@@ -192,7 +192,7 @@ function HomeManagement(props) {
 
     const confirm = (record) => {
         Modal.confirm({
-            title: 'Confirm Delete',
+            title: ' Delete home',
             icon: <ExclamationCircleOutlined />,
             content: 'This action is not reversible, are you sure to continue',
             okText: 'OK',
