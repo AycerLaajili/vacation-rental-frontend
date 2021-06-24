@@ -23,23 +23,29 @@ function ReservationModal(props) {
     return (
         <div>
             <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} >
-                <Form.Item name='referance' label="Referance"  >
+                <Form.Item name='referance' label="Referance"
+                    rules={[{ required: true, message: 'Please enter referance!' }]}   >
+
                     <Input />
                 </Form.Item>
 
-                <Form.Item name='period' label="Period" >
+                <Form.Item name='period' label="Period"
+                    rules={[{ required: true, message: 'Please enter period!' }]} >
                     <RangePicker />
                 </Form.Item>
 
-                <Form.Item name='clientName' label="Client Name" >
+                <Form.Item name='clientName' label="Client Name"
+                    rules={[{ required: true, message: 'Please enter client name!' }]}  >
                     <Input />
                 </Form.Item>
 
-                <Form.Item name='clientPhone' label="Client Phone" >
+                <Form.Item name='clientPhone' label="Client Phone"
+                    rules={[{ required: true, message: 'Please enter client phone!' }]}  >
                     <InputNumber />
                 </Form.Item>
 
-                <Form.Item name='payed' label="Payed">
+                <Form.Item name='payed' label="Payed"
+                    rules={[{ required: true, message: 'Please enter payed or not payed!' }]} >
                     <Select style={{ width: 100 }} >
                         <Option value="payed">Payed</Option>
                         <Option value="not payed">Not Payed</Option>
