@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, DatePicker, Modal, Calendar, Row } from 'antd';
-import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, CalendarOutlined, UnorderedListOutlined, SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import HomeModalContent from './components/HomeModalContent'
 import axios from '../../config/axios'
+
+
 
 function HomeManagement(props) {
 
@@ -18,7 +20,9 @@ function HomeManagement(props) {
     const [data, setData] = useState([])
 
 
+
     // -------------- Variable definition
+
 
     const { RangePicker } = DatePicker
     let searchInput
@@ -185,6 +189,17 @@ function HomeManagement(props) {
         setData(newData)
     }
 
+    const confirm = (record) => {
+        Modal.confirm({
+            title: 'Confirm Delete',
+            icon: <ExclamationCircleOutlined />,
+            content: 'This action is not reversible, are you sure to continue',
+            okText: 'OK',
+            cancelText: 'Cancel',
+            onOk: () => { handleDeleteHome(record) }
+        });
+    }
+
 
     const columns = [
         {
@@ -230,7 +245,7 @@ function HomeManagement(props) {
                     <Button type="primary" shape="circle" icon={<CalendarOutlined />} onClick={showCalenderModal} />
                     <Button type="primary" shape="circle" icon={<UnorderedListOutlined />} />
                     <Button type="primary" shape="circle" icon={<SettingOutlined />} onClick={() => { showEditModal(record) }} />
-                    <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
+                    <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { confirm(record) }} />
                 </Space>
             ),
         },
