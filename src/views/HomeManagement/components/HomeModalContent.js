@@ -24,6 +24,8 @@ function HomeModalContent(props) {
         setFileList([])
     }
 
+
+
     const handleFileListChange = (data) => {
         setFileList(data.fileList)
     }
@@ -70,19 +72,31 @@ function HomeModalContent(props) {
     return (
         <div>
             <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} >
-                <Form.Item name='referance' label="Referance" >
+                <Form.Item
+                    name='referance'
+                    label="Referance"
+                    rules={[{ required: true, message: 'Please input your Referance!' }]} >
                     <Input />
                 </Form.Item>
 
-                <Form.Item name='region' label="Region" >
+                <Form.Item
+                    name='region'
+                    label="Region"
+                    rules={[{ required: true, message: 'Please input your Region!' }]}  >
                     <Input />
                 </Form.Item>
 
-                <Form.Item name='type' label="Type" >
+                <Form.Item
+                    name='type'
+                    label="Type"
+                    rules={[{ required: true, message: 'Please input your Type!' }]}  >
                     <Input />
                 </Form.Item>
 
-                <Form.Item name='price' label="Price" >
+                <Form.Item
+                    name='price'
+                    label="Price"
+                    rules={[{ required: true, message: 'Please input your Price!' }]}  >
                     <InputNumber />
                 </Form.Item>
 
