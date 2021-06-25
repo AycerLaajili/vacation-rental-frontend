@@ -155,6 +155,8 @@ function HomeManagement(props) {
     }
 
     const handleEditHome = async (values) => {
+        if (values.photos)
+            values.photos = values.photos.fileList.map(item => item.response || item.url)
 
         values._id = selectedRecord._id
         const response = await axios.put('/home/' + values._id, values)
