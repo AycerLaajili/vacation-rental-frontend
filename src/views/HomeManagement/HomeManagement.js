@@ -154,7 +154,16 @@ function HomeManagement(props) {
         setIsEditModalVisible(false);
     }
 
-    const handleEditHome = (values) => {
+    const handleEditHome = async (values) => {
+
+        values._id = selectedRecord._id
+        const response = await axios.put('/home/' + values._id, values)
+        const newData = [...data]
+        const index = newData.findIndex((item) => { return item._id === selectedRecord._id })
+
+        newData[index] = values
+        setData(newData)
+
         console.log(values)
         setIsEditModalVisible(false)
         setSelectedRecord(null)
