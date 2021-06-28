@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
 import { Table, Input, Button, Space, Modal } from 'antd';
-import { SearchOutlined, PlusOutlined, SettingOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusOutlined, SettingOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 import ReservationModal from './components/ReservationModal'
 import axios from '../../config/axios'
@@ -151,6 +151,17 @@ function ReservationManagement(props) {
 
 
 
+    const confirm = (record) => {
+        Modal.confirm({
+            title: ' Delete home',
+            icon: <ExclamationCircleOutlined />,
+            content: 'This action is not reversible, are you sure to continue',
+            okText: 'OK',
+            cancelText: 'Cancel',
+            onOk: () => { handleDeleteHome(record) }
+        });
+    }
+
     const columns = [
         {
             title: 'Referance',
@@ -193,7 +204,7 @@ function ReservationManagement(props) {
             render: (text, record) => (
                 <Space size="middle">
                     <Button type="primary" shape="circle" icon={<SettingOutlined />} onClick={() => { showEditModal(record) }} />
-                    <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
+                    <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { confirm(record) }} />
                 </Space>
             ),
         },
