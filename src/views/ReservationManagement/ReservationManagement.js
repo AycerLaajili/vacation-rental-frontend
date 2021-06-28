@@ -8,12 +8,19 @@ import axios from '../../config/axios'
 
 function ReservationManagement(props) {
 
+    // -------------- State definition
+
     const [searchText, setSearchText] = useState('')
     const [searchedColumn, setSearchedColumn] = useState('')
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState(null);
     const [data, setData] = useState([])
 
+    // -------------- Variable definition
     let searchInput
+
+    // -------------- Handle table search functions
 
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -89,7 +96,8 @@ function ReservationManagement(props) {
         setSearchText('')
     }
 
-    // Modal functions *********
+    // -------------- Add Modal functions
+
     const showModal = () => {
         setIsModalVisible(true);
     }
@@ -112,6 +120,36 @@ function ReservationManagement(props) {
         setData(newData)
         setIsModalVisible(false);
     }
+
+    // -------------- Edit Modal functions
+    const showEditModal = (record) => {
+        setSelectedRecord(record)
+        setIsEditModalVisible(true)
+    }
+
+    const handleCancelEditModal = () => {
+        setIsEditModalVisible(false);
+    }
+
+    const handleEditReservation = async (values) => {
+
+        const fromDate = values.period[0].format("DD/MM/YYYY")
+        const toDate = values.period[1].format("DD/MM/YYYY")
+        values.period = fromDate + ' - ' + toDate
+
+        const response = await axios.put('/reservation/' + values._id, values)
+
+        const newData = [...data]
+        const index = newData.findIndex((item) => { return item._id === selectedRecord._id })
+
+        newData[index] = values
+        setData(newData)
+
+        setIsEditModalVisible(false)
+        setSelectedRecord(null)
+    }
+
+
 
     const columns = [
         {
@@ -154,14 +192,14 @@ function ReservationManagement(props) {
             key: 'action',
             render: (text, record) => (
                 <Space size="middle">
-                    <Button type="primary" shape="circle" icon={<SettingOutlined />} />
+                    <Button type="primary" shape="circle" icon={<SettingOutlined />} onClick={() => { showEditModal(record) }} />
                     <Button type="primary" shape="circle" icon={<DeleteOutlined />} onClick={() => { handleDeleteHome(record) }} />
                 </Space>
             ),
         },
     ]
 
-    // -----------------
+    // ----------------- Delete functions
     const handleDeleteHome = async (record) => {
 
         const response = await axios.delete('/reservation/' + record._id)
@@ -201,6 +239,10 @@ function ReservationManagement(props) {
 
             <Modal title="Add new reservation" visible={isModalVisible} footer={null} onCancel={handleCancel} >
                 <ReservationModal onAddReservation={(values) => { handleAddReservation(values) }} onCancel={handleCancel} />
+            </Modal>
+
+            <Modal title="Edit reservation" visible={isEditModalVisible} footer={null} onCancel={handleCancelEditModal}>
+                <ReservationModal selectedRecord={selectedRecord} onSubmit={(values) => { handleEditReservation(values) }} onCancel={handleCancelEditModal} />
             </Modal>
         </div>
     )
