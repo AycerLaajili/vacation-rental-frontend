@@ -133,10 +133,13 @@ function ReservationManagement(props) {
 
     const handleEditReservation = async (values) => {
 
+        console.log(values.period);
+
         const fromDate = values.period[0].format("DD/MM/YYYY")
         const toDate = values.period[1].format("DD/MM/YYYY")
         values.period = fromDate + ' - ' + toDate
 
+        values._id = selectedRecord._id
         const response = await axios.put('/reservation/' + values._id, values)
 
         const newData = [...data]
@@ -246,10 +249,10 @@ function ReservationManagement(props) {
             <br />
             <br />
 
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={data} rowKey="_id" />
 
             <Modal title="Add new reservation" visible={isModalVisible} footer={null} onCancel={handleCancel} >
-                <ReservationModal onAddReservation={(values) => { handleAddReservation(values) }} onCancel={handleCancel} />
+                <ReservationModal onSubmit={(values) => { handleAddReservation(values) }} onCancel={handleCancel} />
             </Modal>
 
             <Modal title="Edit reservation" visible={isEditModalVisible} footer={null} onCancel={handleCancelEditModal}>

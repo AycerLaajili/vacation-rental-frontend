@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import moment from 'moment';
 import { Form, Input, InputNumber, Button, Select, DatePicker, Col, Space, Divider } from 'antd'
 
 const layout = {
@@ -12,23 +13,32 @@ const layout = {
 
 
 function ReservationModal(props) {
+
+    const { selectedRecord, onSubmit } = props
     const { RangePicker } = DatePicker;
     const { Option } = Select;
     const [form] = Form.useForm();
+
     const onFinish = (values) => {
+        onSubmit(values)
         form.resetFields()
-        props.onAddReservation(values)
     }
+
+    useEffect(() => {
+        if (selectedRecord) {
+            // delete selectedRecord.period
+
+            selectedRecord.period = selectedRecord.period.split(' - ')
+            selectedRecord.period[0] = moment(selectedRecord.period[0])
+            selectedRecord.period[1] = moment(selectedRecord.period[1])
+
+            form.setFieldsValue(selectedRecord)
+        }
+    }, [selectedRecord])
 
     return (
         <div>
             <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} >
-                <Form.Item name='referance' label="Referance"
-                    rules={[{ required: true, message: 'Please enter referance!' }]}   >
-
-                    <Input />
-                </Form.Item>
-
                 <Form.Item name='period' label="Period"
                     rules={[{ required: true, message: 'Please enter period!' }]} >
                     <RangePicker />
@@ -41,7 +51,7 @@ function ReservationModal(props) {
 
                 <Form.Item name='clientPhone' label="Client Phone"
                     rules={[{ required: true, message: 'Please enter client phone!' }]}  >
-                    <InputNumber />
+                    <Input />
                 </Form.Item>
 
                 <Form.Item name='payed' label="Payed"
