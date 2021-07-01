@@ -229,6 +229,7 @@ function ReservationManagement(props) {
     const handleGetReservations = async () => {
         console.log('Componenet is mounting');
 
+        await axios.get('/verifyAccess')
         const response = await axios.get('/reservations')
         setData(response.data)
     }

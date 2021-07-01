@@ -1,6 +1,7 @@
 import { Layout, Menu } from 'antd';
 import { Switch, Route, Link } from 'react-router-dom'
 import { LogoutOutlined } from '@ant-design/icons';
+import axios from '../config/axios'
 
 import HomeManagement from '../views/HomeManagement/HomeManagement.js'
 import ReservationManagement from '../views/ReservationManagement/ReservationManagement.js'
@@ -10,9 +11,14 @@ import Login from '../views/Login/Login.js'
 function MainLayout(props) {
     const { Header, Content, Footer } = Layout
 
-    const handleLogout = () => {
-        localStorage.setItem('connected', false)
-        window.location.reload()
+    const handleLogout = async () => {
+        const response = await axios.post('/logout')
+
+        if (response.status === 200) {
+            localStorage.setItem('connected', false)
+            localStorage.setItem('token', null)
+            window.location.reload()
+        }
     }
 
     const connected = localStorage.getItem('connected') === 'true'

@@ -1,14 +1,23 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import loginImage from '../../assets/images/login.png'
+import axios from '../../config/axios';
 
+import loginImage from '../../assets/images/login.png'
 import './style.css'
 
+
 const Login = () => {
-  const onFinish = (values) => {
-    localStorage.setItem('connected', true)
-    window.location.reload()
-  };
+
+  const onFinish = async (values) => {
+
+    const response = await axios.post('/login', values)
+
+    if (response.status === 200) {
+      localStorage.setItem('connected', true)
+      localStorage.setItem('token', response.data.token)
+      window.location.reload()
+    }
+  }
 
   return (
     <div class="content">
@@ -22,15 +31,15 @@ const Login = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
+          name="email"
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your email!',
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
         </Form.Item>
         <Form.Item
           name="password"
