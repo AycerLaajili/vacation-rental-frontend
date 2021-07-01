@@ -248,7 +248,7 @@ function ReservationManagement(props) {
             <br />
             <br />
 
-            <Table columns={columns} dataSource={data} rowKey="_id" />
+            <Table columns={columns} dataSource={data.reverse()} rowKey="_id" />
 
             <Modal title="Add new reservation" visible={isModalVisible} footer={null} onCancel={handleCancel} >
                 <ReservationModal onSubmit={(values) => { handleAddReservation(values) }} onCancel={handleCancel} />
