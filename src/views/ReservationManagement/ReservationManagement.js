@@ -29,7 +29,7 @@ function ReservationManagement(props) {
                     ref={node => {
                         searchInput = node;
                     }}
-                    placeholder={`menlawejchi 3ala ${dataIndex}`}
+                    placeholder={'Search ${dataIndex}'}
                     value={selectedKeys[0]}
                     onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
