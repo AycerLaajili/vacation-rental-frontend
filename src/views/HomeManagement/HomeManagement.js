@@ -275,7 +275,7 @@ function HomeManagement(props) {
 
             <br />
 
-            <Table columns={columns} dataSource={data} rowKey="_id" />
+            <Table columns={columns} dataSource={data.reverse()} rowKey="_id" />
 
             <Modal title="Add new home" visible={isAddModalVisible} footer={null} onCancel={handleCancelAddModal}>
                 <HomeModalContent onSubmit={(values) => { handleAddHome(values) }} onCancel={handleCancelAddModal} />
