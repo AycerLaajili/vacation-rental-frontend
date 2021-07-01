@@ -123,17 +123,15 @@ function ReservationManagement(props) {
 
     // -------------- Edit Modal functions
     const showEditModal = (record) => {
-        setSelectedRecord(record)
+        setSelectedRecord({ ...record })
         setIsEditModalVisible(true)
     }
 
     const handleCancelEditModal = () => {
-        setIsEditModalVisible(false);
+        setIsEditModalVisible(false)
     }
 
     const handleEditReservation = async (values) => {
-
-        console.log(values.period);
 
         const fromDate = values.period[0].format("DD/MM/YYYY")
         const toDate = values.period[1].format("DD/MM/YYYY")
@@ -145,6 +143,7 @@ function ReservationManagement(props) {
         const newData = [...data]
         const index = newData.findIndex((item) => { return item._id === selectedRecord._id })
 
+        values.referance = newData[index].referance
         newData[index] = values
         setData(newData)
 

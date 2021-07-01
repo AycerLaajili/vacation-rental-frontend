@@ -14,7 +14,7 @@ const layout = {
 
 function ReservationModal(props) {
 
-    const { selectedRecord, onSubmit } = props
+    const { selectedRecord, onSubmit, onCancel } = props
     const { RangePicker } = DatePicker;
     const { Option } = Select;
     const [form] = Form.useForm();
@@ -25,9 +25,8 @@ function ReservationModal(props) {
     }
 
     useEffect(() => {
-        if (selectedRecord) {
+        if (selectedRecord && typeof selectedRecord.period === "string") {
             // delete selectedRecord.period
-
             selectedRecord.period = selectedRecord.period.split(' - ')
             selectedRecord.period[0] = moment(selectedRecord.period[0])
             selectedRecord.period[1] = moment(selectedRecord.period[1])
@@ -66,7 +65,7 @@ function ReservationModal(props) {
 
                 <Col span={12} offset={17}>
                     <Space >
-                        <Button onClick={props.onCancel}>Cancel</Button>
+                        <Button onClick={onCancel}>Cancel</Button>
                         <Button type="primary" htmlType="submit">OK</Button>
                     </Space>
                 </Col>
